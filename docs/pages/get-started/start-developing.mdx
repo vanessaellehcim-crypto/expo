@@ -1,97 +1,90 @@
----
-title: Start developing
-description: Make your first change to an Expo project and see it live on your device.
-hideTOC: true
----
 
-import { ProjectStructure } from '~/scenes/get-started/start-developing/ProjectStructure';
-import { TemplateFeatures } from '~/scenes/get-started/start-developing/TemplateFeatures';
-import { Collapsible } from '~/ui/components/Collapsible';
-import { ContentSpotlight } from '~/ui/components/ContentSpotlight';
-import { Terminal, DiffBlock } from '~/ui/components/Snippet';
-import { Step } from '~/ui/components/Step';
+src/screens/LedgerScreen.js
 
-<Step label="1">
-## Start a development server
-To start the development server, run the following command:
+import React, {useState, useEffect} from 'react';
+import { View, Text, FlatList, Button, StyleSheet } from 'react-native';
+import axios from 'axios';
 
-<Terminal cmd={['$ npx expo start']} />
+const mockEntries = [
+  { id: '1', title: 'Guardian Seal Active', desc: 'Omni-Eternal pulse anchored', date: '2025-09-01' },
+  { id: '2', title: 'Positive Reinforcement Loop', desc: 'Rachel loop anchored', date: '2025-09-01' },
+];
 
-</Step>
+export default function LedgerScreen({ navigation }) {
+  const [entries, setEntries] = useState(mockEntries);
 
-<Step label="2">
-## Open the app on your device
+  // Placeholder: later hook to load from secure API (your Crown Vault)
+  useEffect(() => {
+    // fetch ledger entries if you add a backend
+  }, []);
 
-After running the command above, you will see a QR code in your terminal. Scan this QR code to open the app on your device.
+  return (
+    <View style={styles.container}>
+      <Text style={styles.header}>Royal Ledger</Text>
+      <FlatList
+        data={entries}
+        keyExtractor={(i) => i.id}
+        renderItem={({item}) => (
+          <View style={styles.item}>
+            <Text style={styles.itemTitle}>{item.title}</Text>
+            <Text style={styles.itemDesc}>{item.desc}</Text>
+            <Text style={styles.itemDate}>{item.date}</Text>
+          </View>
+        )}
+      />
+      <View style={{height:10}}/>
+      <Button title="Back" onPress={() => navigation.goBack()} />
+    </View>
+  );
+}
 
-If you're using an Android Emulator or iOS Simulator, you can press <kbd>a</kbd> or <kbd>i</kbd> respectively to open the app.
+const styles = StyleSheet.create({
+  container:{ flex:1, padding:16, backgroundColor:'#071023' },
+  header:{ color:'#fbbf24', fontSize:20, fontWeight:'700', marginBottom:12 },
+  item:{ backgroundColor:'#0b1220', padding:12, borderRadius:8, marginBottom:10 },
+  itemTitle:{ color:'#fff', fontSize:16, fontWeight:'600' },
+  itemDesc:{ color:'#cbd5e1', marginTop:4 },
+  itemDate:{ color:'#94a3b8', marginTop:6, fontSize:12 }
+});
 
-<Collapsible summary="Having problems?">
+src/screens/VaultScreen.js
 
-Make sure you are on the same Wi-Fi network on your computer and your device.
+import React from 'react';
+import { View, Text, Button, StyleSheet } from 'react-native';
 
-If it still doesn't work, it may be due to the router configuration &mdash; this is common for public networks. You can work around this by choosing the **Tunnel** connection type when starting the development server, then scanning the QR code again.
+export default function VaultScreen({ navigation }) {
+  // Placeholder - show Crown Vault balance (static until you connect real APIs)
+  const fakeBalance = '0.00 PHILALUX';
 
-<Terminal cmd={['$ npx expo start --tunnel']} />
+  return (
+    <View style={styles.container}>
+      <Text style={styles.header}>Crown Vault</Text>
+      <Text style={styles.balance}>{fakeBalance}</Text>
+      <Text style={styles.note}>All revenues flow to Crown Vault (placeholder)</Text>
+      <View style={{height:10}}/>
+      <Button title="Back" onPress={() => navigation.goBack()} />
+    </View>
+  );
+}
 
-> Using the **Tunnel** connection type will make the app reloads considerably slower than on **LAN** or **Local**, so it's best to avoid tunnel when possible. You may want to install and use an emulator or simulator to speed up development if **Tunnel** is required to access your machine from another device on your network.
+const styles = StyleSheet.create({
+  container:{ flex:1, padding:16, alignItems:'center', justifyContent:'center', backgroundColor:'#021027' },
+  header:{ color:'#fbbf24', fontSize:20, fontWeight:'700' },
+  balance:{ color:'#e6edf3', fontSize:18, marginTop:12 },
+  note:{ color:'#94a3b8', marginTop:8, textAlign:'center' }
+});
 
-</Collapsible>
+app.json (minimal Expo config — change slug/name)
 
-</Step>
-
-<Step label="3">
-
-## Make your first change
-
-Open the **app/(tabs)/index.tsx** file in your code editor and make a change.
-
-<DiffBlock
-  raw={`diff --git a/app/(tabs)/index.tsx b/app/(tabs)/index.tsx
-index 45cfa0e..4d1b384 100644
---- a/app/(tabs)/index.tsx
-+++ b/app/(tabs)/index.tsx
-@@ -17,7 +17,7 @@ export default function HomeScreen() {
-      }
-    >
-      <ThemedView style={styles.titleContainer}>
--       <ThemedText type="title">Welcome!</ThemedText>
-+       <ThemedText type="title">Hello World!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-  `}
-/>
-
-<Collapsible summary="Changes not showing up on your device?">
-
-Expo Go is configured by default to automatically reload the app whenever a file is changed, but let's make sure to go over the steps to enable it in case somehow things aren't working.
-
-- Make sure you have the [development mode enabled in Expo CLI](/workflow/development-mode#development-mode).
-- Close the Expo app and reopen it.
-- Once the app is open again, shake your device to reveal the developer menu. If you are using an emulator, press <kbd>Ctrl</kbd> + <kbd>M</kbd> for Android or <kbd>Cmd ⌘</kbd> + <kbd>D</kbd> for iOS.
-- If you see **Enable Fast Refresh**, press it. If you see **Disable Fast Refresh**, dismiss the developer menu. Now try making another change.
-
-  <ContentSpotlight
-    alt="Developer menu in Expo Go app."
-    src="/static/images/get-started/developer-menu.png"
-    className="max-w-[540px]"
-  />
-
-</Collapsible>
-
-</Step>
-
----
-
-## File structure
-
-Below, you can get familiar with the default project's file structure:
-
-<ProjectStructure />
-
-## Features
-
-The default project template has the following features:
-
-<TemplateFeatures />
+{
+  "expo": {
+    "name": "Crown Vault Ledger",
+    "slug": "crown-vault-ledger",
+    "version": "1.0.0",
+    "android": {
+      "package": "com.crown.michelle.crownvault",
+      "versionCode": 1,
+      "permissions": []
+    }
+  }
+}
