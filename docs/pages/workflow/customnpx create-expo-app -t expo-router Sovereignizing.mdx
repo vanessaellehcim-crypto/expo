@@ -1,0 +1,76 @@
+// ============================ // Quick Setup (read me first) // ============================ // 1) Create a new Expo project with Expo Router: //    npx create-expo-app -t expo-router SovereignApp //    cd SovereignApp // 2) Copy the /app and /components files below into your project, preserving paths. // 3) Start the dev server: //    npx expo start // 4) Open on your device with Expo Go (scan QR). // // This starter uses only React Native + expo-router (no extra libs), // with clean, minimal styling and static placeholder data.
+
+// ───────────────────────────────────────────────────────────────────────────── // File: app/(tabs)/_layout.tsx // ───────────────────────────────────────────────────────────────────────────── import { Tabs } from "expo-router"; import { Platform } from "react-native";
+
+export default function TabsLayout() { const isWeb = Platform.OS === "web"; return ( <Tabs screenOptions={{ headerShown: false, tabBarActiveTintColor: "#111827", tabBarInactiveTintColor: "#6B7280", tabBarStyle: { height: 60, paddingBottom: 10, paddingTop: 8, }, tabBarLabelStyle: { fontSize: 12, fontWeight: "600", marginTop: -4, }, }} > <Tabs.Screen name="index" options={{ title: "Dashboard" }} /> <Tabs.Screen name="vaults" options={{ title: "Vaults" }} /> <Tabs.Screen name="ledger" options={{ title: "Ledger" }} /> <Tabs.Screen name="enforcement" options={{ title: "Enforce" }} /> </Tabs> ); }
+
+// ───────────────────────────────────────────────────────────────────────────── // File: app/(tabs)/index.tsx  (Dashboard) // ───────────────────────────────────────────────────────────────────────────── import { View, Text, StyleSheet, ScrollView } from "react-native"; import { StatCard } from "../../components/StatCard";
+
+export default function DashboardScreen() { return ( <ScrollView contentContainerStyle={styles.container}> <Text style={styles.title}>👑 Crown Sovereign Dashboard</Text> <Text style={styles.subtitle}>Live status (static placeholders)</Text>
+
+<View style={styles.grid}>
+    <StatCard label="Vaults Synced" value="✔ Active" />
+    <StatCard label="Royal Ledger" value="✔ Connected" />
+    <StatCard label="Enforcement" value="✔ Online" />
+    <StatCard label="Alerts (High)" value="0" />
+  </View>
+
+  <View style={{ height: 12 }} />
+
+  <View style={styles.section}>
+    <Text style={styles.sectionTitle}>Next Actions</Text>
+    <Text style={styles.item}>• Upload Amazon App build</Text>
+    <Text style={styles.item}>• Execute employee payments</Text>
+    <Text style={styles.item}>• Approve scroll updates</Text>
+  </View>
+</ScrollView>
+
+); }
+
+const styles = StyleSheet.create({ container: { padding: 20, }, title: { fontSize: 22, fontWeight: "800", marginBottom: 4, }, subtitle: { fontSize: 14, color: "#6B7280", marginBottom: 16, }, grid: { flexDirection: "row", flexWrap: "wrap", gap: 12, }, section: { backgroundColor: "#F9FAFB", borderRadius: 14, padding: 16, borderWidth: 1, borderColor: "#E5E7EB", }, sectionTitle: { fontSize: 16, fontWeight: "700", marginBottom: 8, }, item: { fontSize: 14, marginBottom: 6, }, });
+
+// ───────────────────────────────────────────────────────────────────────────── // File: app/(tabs)/vaults.tsx // ───────────────────────────────────────────────────────────────────────────── import { View, Text, StyleSheet } from "react-native"; import { Tile } from "../../components/Tile";
+
+export default function VaultsScreen() { return ( <View style={styles.container}> <Text style={styles.title}>💎 Vaults</Text> <Tile title="Quantum Holdings" caption="Fully secure" value="∞" /> <Tile title="ETH / Crypto" caption="Active (bypass 3D)" value="•••" /> <Tile title="PHILALUX (FLR)" caption="> $10 (placeholder)" value="Auto-flow" /> </View> ); }
+
+const styles = StyleSheet.create({ container: { flex: 1, padding: 20 }, title: { fontSize: 20, fontWeight: "800", marginBottom: 12 }, });
+
+// ───────────────────────────────────────────────────────────────────────────── // File: app/(tabs)/ledger.tsx // ───────────────────────────────────────────────────────────────────────────── import { View, Text, StyleSheet } from "react-native"; import { LogRow } from "../../components/LogRow";
+
+export default function LedgerScreen() { return ( <View style={styles.container}> <Text style={styles.title}>📜 Royal Ledger</Text> <LogRow
+time="Now"
+text="Bypass active: Higher → Lower flows only; all 3D gates ignored"
+/> <LogRow time="Now" text="Employee payments: ready (static placeholders)" /> <LogRow time="Earlier" text="Trauma Cards synced (Rachel, Emily D.)" /> <LogRow time="Earlier" text="Enforcement protocols online" /> </View> ); }
+
+const styles = StyleSheet.create({ container: { flex: 1, padding: 20 }, title: { fontSize: 20, fontWeight: "800", marginBottom: 12 }, });
+
+// ───────────────────────────────────────────────────────────────────────────── // File: app/(tabs)/enforcement.tsx // ───────────────────────────────────────────────────────────────────────────── import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+
+const Button = ({ label }: { label: string }) => ( <TouchableOpacity style={styles.btn} activeOpacity={0.8}> <Text style={styles.btnText}>{label}</Text> </TouchableOpacity> );
+
+export default function EnforcementScreen() { return ( <View style={styles.container}> <Text style={styles.title}>⚖️ Enforcement (static)</Text> <Text style={styles.caption}> Buttons are placeholders; wire to real actions when ready. </Text>
+
+<View style={{ height: 8 }} />
+  <Button label="Activate Apex Tartarus" />
+  <Button label="Enable Nemesis Loops" />
+  <Button label="Shockwave Enforcement" />
+  <Button label="Proxy Purge" />
+  <Button label="3D Density Override" />
+</View>
+
+); }
+
+const styles = StyleSheet.create({ container: { flex: 1, padding: 20 }, title: { fontSize: 20, fontWeight: "800" }, caption: { color: "#6B7280", marginTop: 4 }, btn: { backgroundColor: "#111827", paddingVertical: 14, paddingHorizontal: 16, borderRadius: 12, marginTop: 12, }, btnText: { color: "white", fontWeight: "700", textAlign: "center", fontSize: 14, }, });
+
+// ───────────────────────────────────────────────────────────────────────────── // File: components/StatCard.tsx // ───────────────────────────────────────────────────────────────────────────── import { View, Text, StyleSheet } from "react-native";
+
+export function StatCard({ label, value, }: { label: string; value: string; }) { return ( <View style={styles.card}> <Text style={styles.value}>{value}</Text> <Text style={styles.label}>{label}</Text> </View> ); }
+
+const styles = StyleSheet.create({ card: { backgroundColor: "#111827", padding: 16, borderRadius: 14, minWidth: 150, }, value: { color: "#fff", fontWeight: "800", fontSize: 16 }, label: { color: "#D1D5DB", fontSize: 12, marginTop: 6 }, });
+
+// ───────────────────────────────────────────────────────────────────────────── // File: components/Tile.tsx // ───────────────────────────────────────────────────────────────────────────── import { View, Text, StyleSheet } from "react-native";
+
+export function Tile({ title, caption, value, }: { title: string; caption?: string; value?: string; }) { return ( <View style={styles.tile}> <View style={{ flex: 1 }}> <Text style={styles.title}>{title}</Text> {caption ? <Text style={styles.caption}>{caption}</Text> : null} </View> {value ? <Text style={styles.value}>{value}</Text> : null} </View> ); }
+
+const styles = StyleSheet.create({ tile: { backgroundColor: "#F9FAFB", borderRadius: 14, padding: 16, borderWidth: 1, borderColor: "#E5E7EB", marginBottom: 12, flexDirection: "row", alignItems: "center", gap: 10, }, title: { fontWeight: "800", fontSize: 15 }, caption: { color: "#6B7280", marginTop: 2 }, value: { fontWeight: "800", fontSize: 14 }, });
+
