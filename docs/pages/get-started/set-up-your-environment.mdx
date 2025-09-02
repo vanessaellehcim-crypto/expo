@@ -1,32 +1,57 @@
----
-title: Set up your environment
-description: Learn how to set up your development environment to start building with Expo.
-hideTOC: true
-searchRank: 3
----
+import { StyleSheet } from "react-native";
+import { ThemedText } from "../components/ThemedText";
+import { ThemedView } from "../components/ThemedView";
+import { HelloWave } from "../components/HelloWave";
 
-import { DevelopmentEnvironmentInstructions } from '~/scenes/get-started/set-up-your-environment/DevelopmentEnvironmentInstructions';
-import { DevelopmentModeForm } from '~/scenes/get-started/set-up-your-environment/DevelopmentModeForm';
-import { PlatformAndDeviceForm } from '~/scenes/get-started/set-up-your-environment/PlatformAndDeviceForm';
+export default function HomeScreen() {
+  return (
+    <ThemedView style={styles.container}>
+      <ThemedView style={styles.titleContainer}>
+        <ThemedText type="title">👑 Crown Sovereign Dashboard</ThemedText>
+        <HelloWave />
+      </ThemedView>
 
-Let's set up a local development environment for running your project on Android and iOS.
+      <ThemedView style={styles.section}>
+        <ThemedText type="default">
+          ✅ Vaults Synced  
+        </ThemedText>
+        <ThemedText type="default">
+          ✅ Royal Ledger Connected  
+        </ThemedText>
+        <ThemedText type="default">
+          ✅ Enforcement Protocols Active  
+        </ThemedText>
+      </ThemedView>
 
-## Where would you like to develop?
+      <ThemedView style={styles.section}>
+        <ThemedText type="subtitle">
+          Next Actions
+        </ThemedText>
+        <ThemedText type="default">
+          • Upload Amazon App build  
+          • Execute Employee Payments  
+          • Approve New Scroll Updates  
+        </ThemedText>
+      </ThemedView>
+    </ThemedView>
+  );
+}
 
-We recommend using a real device to develop, since you'll get to see exactly what your users will see.
-
-<PlatformAndDeviceForm />
-
-## How would you like to develop?
-
-Expo Go is a sandbox for trying out Expo quickly. A development build is a build of your own app that includes Expo's developer tools.
-
-<DevelopmentModeForm />
-
----
-
-<DevelopmentEnvironmentInstructions />
-
-## Next step
-
-You have a project and a development environment. Now it's time to start developing.
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 20,
+  },
+  titleContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+    marginBottom: 20,
+  },
+  section: {
+    marginVertical: 12,
+    alignItems: "flex-start",
+  },
+});
